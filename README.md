@@ -113,10 +113,10 @@ The modular design makes it easy to add new tools (e.g., for booking, baggage cl
 
 ## License
 
-[Specify your license here.]
+MIT License
 
 ---
 
 ## Contact
 
-[Add contact or contribution guidelines if needed.]
+edofransisco011@gmail.com
