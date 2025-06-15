@@ -1,5 +1,3 @@
-Of course. Here is the complete `README.md` file in a copy-paste-ready format.
-
 ```markdown
 # Airline Customer Support Agent
 
