@@ -1,3 +1,4 @@
-qwen-agent
-python-dotenv
-python-dateutil
++qwen-agent==0.3.2
++python-dotenv==1.0.1
++python-dateutil==2.9.0.post0
++rich==13.7.1
