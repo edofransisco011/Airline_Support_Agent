@@ -1,4 +1,3 @@
-
 # Airline Customer Support Agent
 
 An intelligent, extensible customer support agent for airline-related inquiries, built on the **Qwen-Agent** framework. This project leverages Large Language Models (LLMs) and custom tools to deliver conversational support for common airline questions.
@@ -7,116 +6,85 @@ The agent understands natural language, interacts with simulated airline APIs, a
 
 ---
 
-## Features
+## 🌟 Key Features
 
-- **Flight Status Checking:** Get real-time updates on flight status (e.g., "On Time," "Delayed," "Cancelled").
-- **Flight Search:** Find available flights by departure city, destination, and date.
-- **Conversational CLI:** Simple, intuitive command-line chat interface.
-- **Modular Tool System:** Easily extend or customize the agent to handle bookings, baggage, loyalty programs, and more.
-
----
-
-## Project Structure
-
-```
-airline_support_agent/
-│
-├── .env                # Secret API keys (not committed)
-├── main.py             # Application entry point
-├── README.md           # Project overview and instructions
-├── requirements.txt    # Python dependencies
-│
-├── agents/             # Core agent logic and orchestration
-├── config/             # App settings and configuration files
-├── data/               # Static files (e.g., airline policies for RAG)
-├── logs/               # Application logs
-├── tools/              # Custom tool plugins (e.g., flight search)
-└── utils/              # Shared utilities, API clients, helpers
-```
+-   **Flight Status Checking:** Get real-time updates on flight status (e.g., "On Time," "Delayed," "Cancelled").
+-   **Flight Search:** Find available flights by departure city, destination, and date.
+-   **Conversational CLI:** A polished and intuitive command-line chat interface.
+-   **Automated Tool Discovery:** The agent automatically discovers and registers new tools, making it highly extensible.
 
 ---
 
-## Setup & Installation
+## 🚀 How It Works
 
-### 1. Prerequisites
+The agent uses a simple but powerful "Reason and Act" loop. When it receives a user query, it follows a process defined by its system prompt:
 
-- Python 3.8+
-- Git
-
-### 2. Clone the Repository
-
-```bash
-git clone <your-repository-url>
-cd airline_support_agent
-```
-
-### 3. Create a Virtual Environment
-
-**macOS/Linux:**
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-**Windows:**
-```bash
-python -m venv venv
-.env\Scriptsctivate
-```
-
-### 4. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 5. Add Environment Variables
-
-- Create a `.env` file in the project root.
-- Add your DashScope API key:
-    ```env
-    # Get your API key from:
-    # https://bailian.console.alibabacloud.com/
-    DASHSCOPE_API_KEY="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    ```
-
----
-
-## Running the Agent
-
-Start the agent with:
-
-```bash
-python main.py
-```
-
-The CLI will launch—just type your questions. To exit, type `quit`.
-
----
-
-## Example Queries
-
-Ask the agent questions like:
+1.  **Decide:** The LLM analyzes the query and chooses the most appropriate tool (e.g., `flight_status_checker` or `flight_search`).
+2.  **Act:** The agent calls the selected tool with the necessary parameters extracted from the query.
+3.  **Summarize:** The tool returns structured data (JSON) from a mock API, and the LLM summarizes this data into a friendly, natural language response for the user.
 
 ```
-What is the status of flight QA123?
-Find me a flight from JFK to LAX for tomorrow.
-Hi, can you help me?
+┌──────────────┐   1. Query   ┌──────────────┐   2. Selects Tool   ┌────────────────────────┐
+│     User     │─────────────>│  LLM Agent   │────────────────────>│ flight_status_checker  │
+└──────────────┘              └───────┬──────┘                     └────────────────────────┘
+       ^                              │                              │ 3. Returns "On Time"
+       │ 5. Formats &               │                              │
+       │    Responds                 │ 4. Summarizes Result         │
+       └──────────────────────────────┘                              ↓
+                                                            ┌────────────────────────┐
+                                                            │      flight_search     │
+                                                            └────────────────────────┘
 ```
 
 ---
 
-## Extending the Agent
+## 💬 Sample Conversation
 
-The modular design makes it easy to add new tools (e.g., for booking, baggage claims, etc.). See the `tools/` directory for examples.
+Here is an example of the agent in action:
+
+![Agent Demo](httpst://i.imgur.com/example.gif)  **You:** What is the status of flight QA123?
+
+**Agent:** The status of flight QA123 is **On Time**.
+
+---
+
+**You:** Find me a flight from JFK to LAX for tomorrow.
+
+**Agent:** I found a couple of flights for you from JFK to LAX:
+* **Flight QA701**: Departs at 09:00, arrives at 12:00. Price: $350.00 USD.
+* **Flight QA703**: Departs at 17:00, arrives at 20:00. Price: $420.50 USD.
+
+---
+
+## 🛠️ Setup & Installation
+
+*(The setup instructions remain largely the same, but ensure `requirements.txt` is updated per Step 1)*
+
+... (Keep your existing Setup & Installation section here) ...
+
+---
+
+## 🔌 Extending the Agent
+
+This project is designed for easy extension. Adding a new tool is straightforward:
+
+1.  **Create the Tool File:** Create a new Python file in the `tools/` directory (e.g., `tools/baggage_tracker_tool.py`).
+2.  **Define the Tool Class:** Inside the new file, create a class that inherits from `BaseTool` and decorate it with `@register_tool('your_tool_name')`.
+3.  **Implement Logic:** Define the `description`, `parameters`, and `call` method. The `call` method contains your tool's logic.
+4.  **Run:** That's it! The agent will automatically discover and load your new tool on the next run, thanks to the dynamic tool discovery mechanism.
+
+---
+
+## ✅ Running Tests
+
+The project includes a suite of unit tests to ensure the tools function correctly. To run the tests:
+
+```bash
+python -m unittest discover
+```
 
 ---
 
 ## License
 
 MIT License
-
----
-
-## Contact
-
-edofransisco011@gmail.com
