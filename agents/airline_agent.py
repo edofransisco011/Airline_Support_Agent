@@ -6,7 +6,7 @@ from config.settings import llm_cfg
 # IMPORTANT: We must import the tool files here so that their @register_tool decorators
 # run and make the tools available to the agent.
 import tools.flight_status_tool
-import tools.booking_tool
+import tools.flight_search_tool
 
 def create_agent():
     """
